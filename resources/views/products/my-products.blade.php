@@ -43,9 +43,10 @@
                     border:1px solid #e2e8f0;
                 ">
 
-                    @if($product->gambar)
-                        <img src="{{ asset('storage/'.$product->gambar) }}"
-                             style="width:100%;height:210px;object-fit:cover;">
+                    @if($product->gambar && file_exists(public_path('storage/' . $product->gambar)))
+                        <img src="{{ asset('storage/' . $product->gambar) }}"
+                            alt="{{ $product->nama_barang }}"
+                            style="width:100%;height:210px;object-fit:cover;">
                     @else
                         <div style="
                             height:210px;
