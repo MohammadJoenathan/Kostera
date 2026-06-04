@@ -44,7 +44,7 @@
                 ">
 
                     @if($product->gambar && file_exists(public_path('storage/' . $product->gambar)))
-                        <img src="{{ asset('storage/' . $product->gambar) }}"
+                        <img src="{{ url('storage/' . $product->gambar) }}"
                             alt="{{ $product->nama_barang }}"
                             style="width:100%;height:210px;object-fit:cover;">
                     @else
