@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -35,11 +36,16 @@ class ProductController extends Controller
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $gambarPath = null;
+        $file = $request->file('gambar');
+        $namaFile = Str::random(40) . '.' . $file->getClientOriginalExtension();
 
-        if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('products', 'public');
+        $folder = public_path('storage/products');
+        if (!file_exists($folder)) {
+            mkdir($folder, 0777, true);
         }
+
+        $file->move($folder, $namaFile);
+        $gambarPath = 'products/' . $namaFile;
 
         Product::create([
             'user_id' => Auth::id(),
@@ -105,11 +111,16 @@ class ProductController extends Controller
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $gambarPath = $product->gambar;
+        $file = $request->file('gambar');
+        $namaFile = Str::random(40) . '.' . $file->getClientOriginalExtension();
 
-        if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('products', 'public');
+        $folder = public_path('storage/products');
+        if (!file_exists($folder)) {
+            mkdir($folder, 0777, true);
         }
+
+        $file->move($folder, $namaFile);
+        $gambarPath = 'products/' . $namaFile;
 
         $product->update([
             'nama_barang' => $request->nama_barang,
