@@ -25,16 +25,17 @@
                     <label style="font-weight:700;">Foto Barang</label>
 
                     @if($product->gambar)
-                        <img src="{{ asset('storage/'.$product->gambar) }}"
-                             style="width:100%;height:230px;object-fit:cover;border-radius:16px;margin:12px 0;">
+                        <img id="previewImage"
+                            src="{{ asset('storage/' . $product->gambar) }}"
+                            style="width:100%;height:230px;object-fit:cover;border-radius:16px;margin:12px 0;">
                     @else
-                        <div style="height:230px;background:#e2e8f0;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:60px;margin:12px 0;">
-                            📦
-                        </div>
+                        <img id="previewImage"
+                            src=""
+                            style="width:100%;height:230px;object-fit:cover;border-radius:16px;margin:12px 0;background:#e2e8f0;">
                     @endif
 
-                    <input type="file" name="gambar" accept="image/*"
-                           style="width:100%;padding:14px;border:1px dashed #2563eb;border-radius:14px;">
+                    <input type="file" name="gambar" accept="image/*" onchange="previewFile(event)"
+                        style="width:100%;padding:14px;border:1px dashed #2563eb;border-radius:14px;">
 
                     <label>Nama Barang</label>
                     <input type="text" name="nama_barang" value="{{ $product->nama_barang }}" required class="form-input">
@@ -116,5 +117,16 @@ label{
     color:#0f172a;
 }
 </style>
+<script>
+function previewFile(event) {
+    const file = event.target.files[0];
 
+    if (!file) {
+        return;
+    }
+
+    const preview = document.getElementById('previewImage');
+    preview.src = URL.createObjectURL(file);
+}
+</script>
 @endsection
